@@ -1,0 +1,78 @@
+datasource db {
+  provider = "mongodb"
+  url      = env("DB_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  firstName String?
+  lastName  String?
+  username  String   @unique
+  email     String?  @unique
+  password  String
+  roles     Json
+}
+
+model Consultation {
+  id                      String                                   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt               DateTime                                 @default(now())
+  updatedAt               DateTime                                 @updatedAt
+  dateTimeField           DateTime?
+  consultationStatusField EnumConsultationConsultationStatusField?
+  notesField              String?
+  patientRefField         String?
+  doctorRefField          String?
+}
+
+model Image {
+  id               String                     @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt        DateTime                   @default(now())
+  updatedAt        DateTime                   @updatedAt
+  imageUrlField    String?
+  uploadedAtField  DateTime?
+  imageStatusField EnumImageImageStatusField?
+  userRefField     String?
+}
+
+model Notification {
+  id              String    @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  messageField    String?
+  createdAtField  DateTime?
+  readStatusField Boolean?
+  userRefField    String?
+}
+
+model AnalysisResult {
+  id              String    @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  resultJsonField Json?
+  createdAtField  DateTime?
+  imageRefField   String?
+}
+
+model Report {
+  id                 String    @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+  reportContentField String?
+  createdAtField     DateTime?
+  patientRefField    String?
+  doctorRefField     String?
+}
+
+enum EnumConsultationConsultationStatusField {
+  Option1
+}
+
+enum EnumImageImageStatusField {
+  Option1
+}
